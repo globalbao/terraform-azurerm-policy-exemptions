@@ -13,5 +13,6 @@ resource "azurerm_resource_group_template_deployment" "this" {
     expiresOn                    = { value = each.value.expiresOn }
     displayName                  = { value = each.value.displayName }
     description                  = { value = each.value.description }
+    metadata                     = { value = each.value.metadata }
   })
 }

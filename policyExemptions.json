@@ -48,6 +48,13 @@
             "metadata": {
                 "description": "The description of the policy exemption"
             }
+        },
+        "metadata": {
+            "type": "Object",
+            "metadata": {
+                "description": "The policy exemption metadata. Metadata is an open ended object and is typically a collection of key value pairs"
+            },
+            "defaultValue": {}
         }
     },
     "resources": [
@@ -61,7 +68,8 @@
                 "exemptionCategory": "[parameters('exemptionCategory')]",
                 "expiresOn": "[parameters('expiresOn')]",
                 "displayName": "[parameters('displayName')]",
-                "description": "[parameters('description')]"
+                "description": "[parameters('description')]",
+                "metadata": "[parameters('metadata')]"
             }
         }
     ]

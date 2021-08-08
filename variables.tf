@@ -9,6 +9,7 @@ variable "policyExemptions" {
     policyDefinitionReferenceIds = list(string)
     exemptionCategory            = string
     expiresOn                    = string
+    metadata                     = any
   }))
   description = <<EOF
     ***For policyExemptions ARM template specs see https://docs.microsoft.com/en-us/azure/templates/microsoft.authorization/policyexemptions?tabs=json
@@ -17,11 +18,11 @@ variable "policyExemptions" {
     -displayName: The display name of the policy exemption.
     -description: The description of the policy exemption.
     -resourceGroupName: The name of the Resource Group where the Resource Group Template Deployment should exist. Changing this forces a new Resource Group Template Deployment to be created.
-    -scope: Use when specifying a scope that is different than the deployment scope.
     -policyAssignmentId: The ID of the policy assignment that is being exempted.
     -policyDefinitionReferenceIds: The policy definition reference ID list when the associated policy assignment is an assignment of a policy set definition.
     -exemptionCategory: The policy exemption category. Possible values are Waiver and Mitigated.
     -expiresOn: The expiration date and time (in UTC ISO 8601 format yyyy-MM-ddTHH:mm:ssZ) of the policy exemption.
+    -metadata: The policy exemption metadata. Metadata is an open ended object and is typically a collection of key value pairs
   EOF
   default     = {}
 }
