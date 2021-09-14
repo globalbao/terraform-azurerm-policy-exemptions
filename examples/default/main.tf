@@ -1,6 +1,6 @@
 module "policy_exemptions" {
   source  = "globalbao/policy-exemptions/azurerm"
-  version = "0.1.0"
+  version = "0.1.1"
   policyExemptions = {
     exemption1 = {
       deploymentMode     = "Incremental"

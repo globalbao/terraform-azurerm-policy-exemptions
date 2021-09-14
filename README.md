@@ -4,6 +4,8 @@ Leverges Terraform's [resource group template deployment](https://registry.terra
 
 Learn more about [Azure Policy Exemptions](https://docs.microsoft.com/en-us/azure/governance/policy/concepts/exemption-structure)
 
+Note: Terraform v0.13 or greater is required to use this module. Download the latest Terraform at [https://www.terraform.io/downloads.html]([https://www.terraform.io/downloads.html])
+
 # Example Usage
 
 * Create 1 policy exemption with a RG exempt from all policies in an assignment.
@@ -11,7 +13,7 @@ Learn more about [Azure Policy Exemptions](https://docs.microsoft.com/en-us/azur
 ```hcl
 module "policy_exemptions" {
   source  = "globalbao/policy-exemptions/azurerm"
-  version = "0.1.0"
+  version = "0.1.1"
   policyExemptions = {
     exemption1 = {
       deploymentMode     = "Incremental"
@@ -34,7 +36,7 @@ module "policy_exemptions" {
 ```hcl
 module "policy_exemptions" {
   source  = "globalbao/policy-exemptions/azurerm"
-  version = "0.1.0"
+  version = "0.1.1"
   policyExemptions = {
     exemption1 = {
       deploymentMode     = "Incremental"
