@@ -4,7 +4,7 @@ Leverges Terraform's [resource group template deployment](https://registry.terra
 
 Learn more about [Azure Policy Exemptions](https://docs.microsoft.com/en-us/azure/governance/policy/concepts/exemption-structure)
 
-Note: Terraform v0.13 or greater is required to use this module. Download the latest Terraform at [https://www.terraform.io/downloads.html]([https://www.terraform.io/downloads.html])
+Note: Terraform v0.13 or greater is required to use this module. Download the latest Terraform at [https://www.terraform.io/downloads.html](https://www.terraform.io/downloads.html)
 
 # Example Usage
 
