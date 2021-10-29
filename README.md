@@ -13,7 +13,7 @@ Note: Terraform v0.13 or greater is required to use this module. Download the la
 ```hcl
 module "policy_exemptions" {
   source  = "globalbao/policy-exemptions/azurerm"
-  version = "0.1.1"
+  version = "0.2.1"
   policyExemptions = {
     exemption1 = {
       deploymentMode     = "Incremental"
@@ -36,7 +36,7 @@ module "policy_exemptions" {
 ```hcl
 module "policy_exemptions" {
   source  = "globalbao/policy-exemptions/azurerm"
-  version = "0.1.1"
+  version = "0.2.1"
   policyExemptions = {
     exemption1 = {
       deploymentMode     = "Incremental"
@@ -61,28 +61,28 @@ module "policy_exemptions" {
       }
     },
     exemption2 = {
-      deploymentMode     = "Incremental"
-      name               = "exemption2"
-      displayName        = "exemption2 for Insert-Your-RG-Name2"
-      description        = "exemption2 waives compliance on an resource group"
-      resourceGroupName  = "Insert-Your-RG-Name2"
-      policyAssignmentId = "/providers/Microsoft.Management/managementGroups/production/providers/Microsoft.Authorization/policyAssignments/2f97de7d41f348529e23d8ae"
+      deploymentMode               = "Incremental"
+      name                         = "exemption2"
+      displayName                  = "exemption2 for Insert-Your-RG-Name2"
+      description                  = "exemption2 waives compliance on an resource group"
+      resourceGroupName            = "Insert-Your-RG-Name2"
+      policyAssignmentId           = "/providers/Microsoft.Management/managementGroups/production/providers/Microsoft.Authorization/policyAssignments/2f97de7d41f348529e23d8ae"
       policyDefinitionReferenceIds = []
-      exemptionCategory = "Mitigated"
-      expiresOn         = "2025-12-31"
-      metadata = {}
+      exemptionCategory            = "Mitigated"
+      expiresOn                    = "2025-12-31"
+      metadata                     = {}
     },
     exemption3 = {
-      deploymentMode     = "Incremental"
-      name               = "exemption3"
-      displayName        = "exemption3 for Insert-Your-RG-Name3"
-      description        = "exemption3 waives compliance on an resource group"
-      resourceGroupName  = "Insert-Your-RG-Name3"
-      policyAssignmentId = "/providers/Microsoft.Management/managementGroups/production/providers/Microsoft.Authorization/policyAssignments/2f97de7d41f348529e23d8ae"
+      deploymentMode               = "Incremental"
+      name                         = "exemption3"
+      displayName                  = "exemption3 for Insert-Your-RG-Name3"
+      description                  = "exemption3 waives compliance on an resource group"
+      resourceGroupName            = "Insert-Your-RG-Name3"
+      policyAssignmentId           = "/providers/Microsoft.Management/managementGroups/production/providers/Microsoft.Authorization/policyAssignments/2f97de7d41f348529e23d8ae"
       policyDefinitionReferenceIds = []
-      exemptionCategory = "Waiver"
-      expiresOn         = "2025-12-29"
-      metadata = {}
+      exemptionCategory            = "Waiver"
+      expiresOn                    = "2025-12-29"
+      metadata                     = {}
     }
   }
 }

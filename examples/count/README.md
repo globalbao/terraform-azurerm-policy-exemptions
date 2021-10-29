@@ -6,10 +6,12 @@ Learn more about [Azure Policy Exemptions](https://docs.microsoft.com/en-us/azur
 
 # Example Usage
 
+* Use a count expression on a variable to determine if policy exemptions are created.
 * Create 3 policy exemptions with only 'exemption1' referencing select policies to be exempted (via policyDefinitionReferenceIds).
 
 ```hcl
 module "policy_exemptions" {
+  count   = var.exemptions_required ? 1 : 0
   source  = "globalbao/policy-exemptions/azurerm"
   version = "0.2.1"
   policyExemptions = {
