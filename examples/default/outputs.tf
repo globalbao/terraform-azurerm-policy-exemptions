@@ -1,7 +1,4 @@
-output "variables" {
-  value = module.policy_exemptions.variables
-}
-
-output "template_deployment" {
-  value = module.policy_exemptions.template_deployment
+output "policy_exemptions" {
+  value       = module.policy_exemptions
+  description = "All output variables for policy exemptions module"
 }
