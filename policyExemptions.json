@@ -8,6 +8,12 @@
                 "description": "The name of the policy exemption"
             }
         },
+        "scope": {
+            "type": "String",
+            "metadata": {
+                "description": "Use when creating an extension resource at a scope that is different than the deployment scope. Set the value to the full name of the resource to apply the extension resource to."
+            }
+        },
         "policyAssignmentId": {
             "type": "String",
             "metadata": {
@@ -59,9 +65,10 @@
     },
     "resources": [
         {
-            "name": "[parameters('name')]",
             "type": "Microsoft.Authorization/policyExemptions",
             "apiVersion": "2020-07-01-preview",
+            "name": "[parameters('name')]",
+            "scope": "[parameters('scope')]",
             "properties": {
                 "policyAssignmentId": "[parameters('policyAssignmentId')]",
                 "policyDefinitionReferenceIds": "[parameters('policyDefinitionReferenceIds')]",
