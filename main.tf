@@ -7,6 +7,7 @@ resource "azurerm_resource_group_template_deployment" "this" {
   template_content    = (file("${path.module}/policyExemptions.json"))
   parameters_content = jsonencode({
     name                         = { value = each.value.name }
+    scope                        = { value = each.value.scope }
     policyAssignmentId           = { value = each.value.policyAssignmentId }
     policyDefinitionReferenceIds = { value = each.value.policyDefinitionReferenceIds }
     exemptionCategory            = { value = each.value.exemptionCategory }

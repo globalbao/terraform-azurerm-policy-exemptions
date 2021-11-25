@@ -2,6 +2,7 @@ variable "policyExemptions" {
   type = map(object({
     deploymentMode               = string
     name                         = string
+    scope                        = string
     displayName                  = string
     description                  = string
     resourceGroupName            = string
@@ -15,6 +16,7 @@ variable "policyExemptions" {
     ***For policyExemptions ARM template specs see https://docs.microsoft.com/en-us/azure/templates/microsoft.authorization/policyexemptions?tabs=json
     -deploymentMode: The Deployment Mode for this Resource Group Template Deployment. Possible values are Complete (where resources in the Resource Group not specified in the ARM Template will be destroyed) and Incremental (where resources are additive only). If deployment_mode is set to Complete then resources within this Resource Group which are not defined in the ARM Template will be deleted.
     -name: The name which should be used for this Resource Group Template Deployment and the name of the policy exemption. Changing this forces a new Resource Group Template Deployment to be created.
+    -scope: Use when creating an extension resource at a scope that is different than the deployment scope. Set the value to the full name of the resource to apply the extension resource to.
     -displayName: The display name of the policy exemption.
     -description: The description of the policy exemption.
     -resourceGroupName: The name of the Resource Group where the Resource Group Template Deployment should exist. Changing this forces a new Resource Group Template Deployment to be created.
