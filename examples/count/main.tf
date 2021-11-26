@@ -1,11 +1,12 @@
 module "policy_exemptions" {
   count   = var.exemptions_required ? 1 : 0
   source  = "globalbao/policy-exemptions/azurerm"
-  version = "0.2.1"
+  version = "0.3.0"
   policyExemptions = {
     exemption1 = {
       deploymentMode     = "Incremental"
       name               = "exemption1"
+      scope              = null
       displayName        = "exemption1 for Insert-Your-RG-Name1"
       description        = "exemption1 waives compliance on an resource group"
       resourceGroupName  = "Insert-Your-RG-Name1"
@@ -28,6 +29,7 @@ module "policy_exemptions" {
     exemption2 = {
       deploymentMode               = "Incremental"
       name                         = "exemption2"
+      scope                        = null
       displayName                  = "exemption2 for Insert-Your-RG-Name2"
       description                  = "exemption2 waives compliance on an resource group"
       resourceGroupName            = "Insert-Your-RG-Name2"
@@ -40,6 +42,7 @@ module "policy_exemptions" {
     exemption3 = {
       deploymentMode               = "Incremental"
       name                         = "exemption3"
+      scope                        = null
       displayName                  = "exemption3 for Insert-Your-RG-Name3"
       description                  = "exemption3 waives compliance on an resource group"
       resourceGroupName            = "Insert-Your-RG-Name3"

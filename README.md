@@ -1,23 +1,31 @@
 # Terraform AzureRM Policy Exemptions
 
-Leverges Terraform's [resource group template deployment](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group_template_deployment) for managing [policy exemptions](https://docs.microsoft.com/en-us/azure/templates/microsoft.authorization/policyexemptions?WT.mc_id=AZ-MVP-5004598).
+Uses a Terraform [Resource Group Template Deployment](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group_template_deployment) for managing [Azure Policy Exemptions](https://docs.microsoft.com/en-us/azure/templates/microsoft.authorization/policyexemptions?WT.mc_id=AZ-MVP-5004598).
 
 Learn more about [Azure Policy Exemptions](https://docs.microsoft.com/en-us/azure/governance/policy/concepts/exemption-structure?WT.mc_id=AZ-MVP-5004598)
 
-Note: Terraform v0.13 or greater is required to use this module. Download the latest Terraform at [https://www.terraform.io/downloads.html](https://www.terraform.io/downloads.html)
+> Note: Terraform v0.13 or greater is required to use this module. Download the latest Terraform at [https://www.terraform.io/downloads.html](https://www.terraform.io/downloads.html)
 
 # Example Usage
 
-#### Create 1 policy exemption with a RG exempt from all policies in an assignment.
+* Create 1 policy exemption for resources in an RG to be exempt from policies in an assignment.
+* Create 1 policy exemption for a Virtual Machine to be exempt from policies in an assignment.
+* Create 3 policy exemptions for resources in selected RGs to be exempt from policies in selected assignments.
+* Create 2 policy exemptions targeting resources in 2 RGs in 2 subscriptions.
+  
+> Complete example code can be found here: [terraform-azurerm-policy-exemptions/tree/main/examples](https://github.com/globalbao/terraform-azurerm-policy-exemptions/tree/main/examples)
+
+#### Create 1 policy exemption for resources in an RG to be exempt from policies in an assignment
 
 ```hcl
 module "policy_exemptions" {
   source  = "globalbao/policy-exemptions/azurerm"
-  version = "0.2.1"
+  version = "0.3.0"
   policyExemptions = {
     exemption1 = {
       deploymentMode     = "Incremental"
       name               = "exemption1"
+      scope              = null
       displayName        = "exemption1 for Insert-Your-RG-Name1"
       description        = "exemption1 waives compliance on an resource group"
       resourceGroupName  = "Insert-Your-RG-Name1"
@@ -31,52 +39,69 @@ module "policy_exemptions" {
 }
 ```
 
-#### Create 3 policy exemptions with only 'exemption1' referencing select policies to be exempted (via policyDefinitionReferenceIds).
+#### Create 1 policy exemption for a Virtual Machine to be exempt from policies in an assignment
 
 ```hcl
 module "policy_exemptions" {
   source  = "globalbao/policy-exemptions/azurerm"
-  version = "0.2.1"
+  version = "0.3.0"
   policyExemptions = {
     exemption1 = {
       deploymentMode     = "Incremental"
       name               = "exemption1"
-      displayName        = "exemption1 for Insert-Your-RG-Name1"
-      description        = "exemption1 waives compliance on an resource group"
+      scope                        = "/subscriptions/xxxx-xxxx-xxxx-xxxx-xxxx/resourcegroups/Insert-Your-RG-Name1/providers/Microsoft.Compute/virtualMachines/virtualmachine1"
+      displayName                  = "exemption1 for storageaccountname1 in Insert-Your-RG-Name1"
+      description                  = "exemption1 exempts policy assignment compliance for storageaccountname1 in Insert-Your-RG-Name1"
       resourceGroupName  = "Insert-Your-RG-Name1"
       policyAssignmentId = "/providers/Microsoft.Management/managementGroups/production/providers/Microsoft.Authorization/policyAssignments/2f97de7d41f348529e23d8ae"
-      policyDefinitionReferenceIds = [
-        "installLogAnalyticsAgentOnVmMonitoring",
-        "installLogAnalyticsAgentOnVmssMonitoring",
-        "windowsDefenderExploitGuardMonitoring",
-        "useRbacRulesMonitoring"
-      ]
+      policyDefinitionReferenceIds = []
       exemptionCategory = "Waiver"
-      expiresOn         = "2025-12-30"
-      metadata = {
-        "requestedBy" : "RG team",
-        "approvedBy" : "DrGovernance",
-        "approvedOn" : "2021-07-26",
-        "ticketRef" : "123456"
-      }
+      expiresOn         = "2025-12-29"
+      metadata = {}
+    }
+  }
+}
+```
+
+#### Create 3 policy exemptions for resources in selected RGs to be exempt from policies in selected assignments
+
+```hcl
+module "policy_exemptions" {
+  source  = "globalbao/policy-exemptions/azurerm"
+  version = "0.3.0"
+  policyExemptions = {
+    exemption1 = {
+      deploymentMode               = "Incremental"
+      name                         = "exemption1"
+      scope                        = null
+      displayName                  = "exemption1 for Insert-Your-RG-Name1"
+      description                  = "exemption1 exempts policy compliance for resources in Insert-Your-RG-Name1"
+      resourceGroupName            = "Insert-Your-RG-Name1"
+      policyAssignmentId = "/providers/Microsoft.Management/managementGroups/production/providers/Microsoft.Authorization/policyAssignments/2f97de7d41f348529e23d8ae"
+      policyDefinitionReferenceIds = []
+      exemptionCategory            = "Waiver"
+      expiresOn                    = "2027-12-30"
+      metadata = {}
     },
     exemption2 = {
       deploymentMode               = "Incremental"
       name                         = "exemption2"
+      scope                        = null
       displayName                  = "exemption2 for Insert-Your-RG-Name2"
-      description                  = "exemption2 waives compliance on an resource group"
+      description                  = "exemption2 exempts policy compliance for resources in Insert-Your-RG-Name2"
       resourceGroupName            = "Insert-Your-RG-Name2"
-      policyAssignmentId           = "/providers/Microsoft.Management/managementGroups/production/providers/Microsoft.Authorization/policyAssignments/2f97de7d41f348529e23d8ae"
+      policyAssignmentId           = "/subscriptions/xxxx-xxxx-xxxx-xxxx-xxxx/providers/Microsoft.Authorization/policyAssignments/SecurityCenterBuiltIn"
       policyDefinitionReferenceIds = []
       exemptionCategory            = "Mitigated"
-      expiresOn                    = "2025-12-31"
+      expiresOn                    = "2026-12-31"
       metadata                     = {}
     },
     exemption3 = {
       deploymentMode               = "Incremental"
       name                         = "exemption3"
+      scope                        = null
       displayName                  = "exemption3 for Insert-Your-RG-Name3"
-      description                  = "exemption3 waives compliance on an resource group"
+      description                  = "exemption3 exempts policy compliance for resources in Insert-Your-RG-Name3"
       resourceGroupName            = "Insert-Your-RG-Name3"
       policyAssignmentId           = "/providers/Microsoft.Management/managementGroups/production/providers/Microsoft.Authorization/policyAssignments/2f97de7d41f348529e23d8ae"
       policyDefinitionReferenceIds = []
@@ -88,7 +113,8 @@ module "policy_exemptions" {
 }
 ```
 
-#### Create 2 policy exemptions targeting RGs in two different subscriptions.
+#### Create 2 policy exemptions targeting resources in 2 RGs in 2 subscriptions
+
 > For documentation on using provider blocks and aliases see [https://www.terraform.io/docs/language/modules/develop/providers.html](https://www.terraform.io/docs/language/modules/develop/providers.html)
 
 ```hcl
@@ -114,32 +140,23 @@ provider "azurerm" {
 # exemption module for subscription A
 module "policy_exemptions_subA" {
   source  = "globalbao/policy-exemptions/azurerm"
-  version = "0.2.1"
+  version = "0.3.0"
   providers = {
     azurerm = azurerm.subA
   }
   policyExemptions = {
     exemption1 = {
-      deploymentMode     = "Incremental"
-      name               = "exemption1"
-      displayName        = "exemption1 for Insert-Your-RG-Name1"
-      description        = "exemption1 waives compliance on an resource group"
-      resourceGroupName  = "Insert-Your-RG-Name1"
+      deploymentMode               = "Incremental"
+      name                         = "exemption1"
+      scope                        = null
+      displayName                  = "exemption1 for Insert-Your-RG-Name1"
+      description                  = "exemption1 exempts policy compliance for resources in Insert-Your-RG-Name1"
+      resourceGroupName            = "Insert-Your-RG-Name1"
       policyAssignmentId = "/providers/Microsoft.Management/managementGroups/production/providers/Microsoft.Authorization/policyAssignments/2f97de7d41f348529e23d8ae"
-      policyDefinitionReferenceIds = [
-        "installLogAnalyticsAgentOnVmMonitoring",
-        "installLogAnalyticsAgentOnVmssMonitoring",
-        "windowsDefenderExploitGuardMonitoring",
-        "useRbacRulesMonitoring"
-      ]
-      exemptionCategory = "Waiver"
-      expiresOn         = "2025-12-30"
-      metadata = {
-        "requestedBy" : "RG team",
-        "approvedBy" : "DrGovernance",
-        "approvedOn" : "2021-07-26",
-        "ticketRef" : "123456"
-      }
+      policyDefinitionReferenceIds = []
+      exemptionCategory            = "Waiver"
+      expiresOn                    = "2027-12-30"
+      metadata = {}
     }
   }
 }
@@ -147,7 +164,7 @@ module "policy_exemptions_subA" {
 # exemption module for subscription B
 module "policy_exemptions_subB" {
   source  = "globalbao/policy-exemptions/azurerm"
-  version = "0.2.1"
+  version = "0.3.0"
   providers = {
     azurerm = azurerm.subB
   }
@@ -155,16 +172,17 @@ module "policy_exemptions_subB" {
     exemption2 = {
       deploymentMode               = "Incremental"
       name                         = "exemption2"
+      scope                        = null
       displayName                  = "exemption2 for Insert-Your-RG-Name2"
-      description                  = "exemption2 waives compliance on an resource group"
+      description                  = "exemption2 exempts policy compliance for resources in Insert-Your-RG-Name2"
       resourceGroupName            = "Insert-Your-RG-Name2"
-      policyAssignmentId           = "/providers/Microsoft.Management/managementGroups/production/providers/Microsoft.Authorization/policyAssignments/2f97de7d41f348529e23d8ae"
+      policyAssignmentId           = "/subscriptions/xxxx-xxxx-xxxx-xxxx-xxxx/providers/Microsoft.Authorization/policyAssignments/SecurityCenterBuiltIn"
       policyDefinitionReferenceIds = []
       exemptionCategory            = "Mitigated"
-      expiresOn                    = "2025-12-31"
+      expiresOn                    = "2026-12-31"
       metadata                     = {}
-      }
     }
+  }
 }
 ```
 
@@ -175,6 +193,7 @@ variable "policyExemptions" {
   type = map(object({
     deploymentMode               = string
     name                         = string
+    scope                        = string
     displayName                  = string
     description                  = string
     resourceGroupName            = string
@@ -188,6 +207,7 @@ variable "policyExemptions" {
     ***For policyExemptions ARM template specs see https://docs.microsoft.com/en-us/azure/templates/microsoft.authorization/policyexemptions?tabs=json
     -deploymentMode: The Deployment Mode for this Resource Group Template Deployment. Possible values are Complete (where resources in the Resource Group not specified in the ARM Template will be destroyed) and Incremental (where resources are additive only). If deployment_mode is set to Complete then resources within this Resource Group which are not defined in the ARM Template will be deleted.
     -name: The name which should be used for this Resource Group Template Deployment and the name of the policy exemption. Changing this forces a new Resource Group Template Deployment to be created.
+    -scope: The full resource ID (string) which you want to apply the policy exemption to. Example: "/subscriptions/xxxx-xxxx/resourceGroups/resourceGroupName/providers/Microsoft.Storage/storageAccounts/storageAccountName". Resource ID used must be in the same RG as the resourceGroupName variable value for this module. Pass in a null or "" value if not applicable to your usage.
     -displayName: The display name of the policy exemption.
     -description: The description of the policy exemption.
     -resourceGroupName: The name of the Resource Group where the Resource Group Template Deployment should exist. Changing this forces a new Resource Group Template Deployment to be created.
@@ -198,6 +218,7 @@ variable "policyExemptions" {
     -metadata: The policy exemption metadata. Metadata is an open ended object and is typically a collection of key value pairs
   EOF
   default     = {}
+}
 }
 ```
 
