@@ -16,4 +16,9 @@ resource "azurerm_resource_group_template_deployment" "this" {
     description                  = { value = each.value.description }
     metadata                     = { value = each.value.metadata }
   })
+  lifecycle {
+    ignore_changes = [
+      parameters_content,
+    ]
+  }
 }
