@@ -1,3 +1,10 @@
+# **Update: Dec 2022**
+Terraform AzureRM provider now has resources available for Policy Exemptions!
+I recommend utilising these for the best experience:
+- https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/management_group_policy_exemption
+- https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subscription_policy_exemption
+- https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group_policy_exemption
+
 # Terraform AzureRM Policy Exemptions
 
 Uses a Terraform [Resource Group Template Deployment](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group_template_deployment) for managing [Azure Policy Exemptions](https://docs.microsoft.com/en-us/azure/templates/microsoft.authorization/policyexemptions?WT.mc_id=AZ-MVP-5004598).
